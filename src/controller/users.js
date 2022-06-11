@@ -8,7 +8,7 @@ const authHelper = require("../helper/auth");
 
 const register = async (req, res, next) => {
   try {
-    const { email, password, fullname } = req.body;
+    const { email, password, fullname, role } = req.body;
     const { rowCount } = await findByEmail(email);
     const salt = bcrypt.genSaltSync(10);
     const passwordHash = bcrypt.hashSync(password, salt);
@@ -22,7 +22,7 @@ const register = async (req, res, next) => {
       email,
       password: passwordHash,
       fullname,
-      role,
+      role: role || "user",
     };
     await create(data);
     commonHelper.response(res, null, 201, "data berhasil register");
@@ -39,13 +39,14 @@ const login = async (req, res, next) => {
       rows: [user],
     } = await findByEmail(email);
 
-    if (!user) {
+    if (!user || user.email === "") {
       return commonHelper.response(res, null, 403, "email atau password anda salah");
     }
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) {
       return commonHelper.response(res, null, 403, "email atau password anda salah");
     }
+    console.log(user);
     delete user.password;
     const payload = {
       email: user.email,
@@ -54,7 +55,7 @@ const login = async (req, res, next) => {
     // generate token
 
     user.token = authHelper.generateToken(payload);
-
+    user.refreshToken = authHelper.generateRefreshToken(payload);
     commonHelper.response(res, user, 201, "anda berhasil login");
   } catch (error) {
     console.log(error);
@@ -73,9 +74,24 @@ const profile = async (req, res, next) => {
 };
 
 const deleteUser = async (req, res, next) => {};
+
+const refreshToken = (req, res, next) => {
+  const refreshToken = req.body.refreshToken;
+  const decoded = jwt.verify(refreshToken, process.env.SECRET_KEY_JWT);
+  const payload = {
+    email: decoded.email,
+    role: decoded.password,
+  };
+  const result = {
+    token: authHelper.generateToken(payload),
+    refreshToken: authHelper.generateRefreshToken(payload),
+  };
+  commonHelper.response(res, result, 200);
+};
 module.exports = {
   register,
   login,
   profile,
   deleteUser,
+  refreshToken,
 };

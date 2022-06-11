@@ -10,16 +10,16 @@ const protect = (req, res, next) => {
       req.decoded = decoded;
       next();
     } else {
-      next(new createError(400, "harus ada token"));
+      next(createError(400, "harus ada token"));
     }
   } catch (error) {
     // console.log(error);
     if (error && error.name === "JsonWebTokenError") {
-      next(new createError(400, "toke invalid"));
+      next(createError(400, "toke invalid"));
     } else if (error && error.name === "TokenExpiredError") {
-      next(new createError(400, "token expired"));
+      next(createError(400, "token expired"));
     } else {
-      next(new createError(400, "token not active"));
+      next(createError(400, "token not active"));
       // next(new createError.InternalServerError());
     }
   }

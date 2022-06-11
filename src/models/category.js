@@ -1,7 +1,7 @@
 const pool = require("../config/db");
 
 const select = ({ limit, offset }) => {
-  return pool.query("SELECT * FROM category LIMIT $1 OFFSET $2", [limit, offset]);
+  return pool.query("SELECT * FROM category ORDER BY id ASC LIMIT $1 OFFSET $2", [limit, offset]);
 };
 const insert = ({ id, name }) => {
   return pool.query("INSERT INTO category(id,name)VALUES($1,$2)", [id, name]);

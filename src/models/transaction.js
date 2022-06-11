@@ -1,7 +1,7 @@
 const pool = require("../config/db");
 const select = ({ limit, offset }) => {
   return new Promise((resolve, reject) => {
-    pool.query("SELECT * FROM transaction LIMIT $1 OFFSET $2", [limit, offset], (err, result) => {
+    pool.query("SELECT * FROM transaction ORDER BY id_transaction ASC LIMIT $1 OFFSET $2", [limit, offset], (err, result) => {
       if (!err) {
         resolve(result.rows);
       } else {
@@ -10,32 +10,34 @@ const select = ({ limit, offset }) => {
     });
   });
 };
-const insert = ({ products_item, price, qty, shiping_address, delivery_cost, iduser }) => {
+const insert = ({ products_item, price, qty, shiping_address, delivery_cost, shopingSummary, iduser }) => {
   return new Promise((resolve, reject) => {
-    pool.query("INSERT INTO transaction(products_item, price, qty, shiping_address, delivery_cost, iduser)VALUES($1,$2,$3,$4,$5,$6)", [products_item, price, qty, shiping_address, delivery_cost, iduser], (err, result) => {
-      if (!err) {
-        resolve(result);
-      } else {
-        reject(new Error(err));
+    pool.query(
+      "INSERT INTO transaction(products_item, price, qty, shiping_address, delivery_cost,shoping_sumary, iduser)VALUES($1,$2,$3,$4,$5,$6,$7)",
+      [products_item, price, qty, shiping_address, delivery_cost, shopingSummary, iduser],
+      (err, result) => {
+        if (!err) {
+          resolve(result);
+        } else {
+          reject(new Error(err));
+        }
       }
-    });
+    );
   });
 };
-// const update = ({ id, name, description, stock, price, idCategory }) => {
-//   return new Promise((resolve, reject) => {
-//     pool.query("UPDATE transaction SET name = $2,description = $3, stock = $4, price = $5, idCategory $6 WHERE id = $1", [id, name, description, stock, price, idCategory], (err, result) => {
-//       if (!err) {
-//         res.json({
-//           message: "data berhasil di ubah",
-//         });
-//       } else {
-//         res.status(500).json({
-//           message: "internal server error",
-//         });
-//       }
-//     });
-//   });
-// };
+
+const update = ({ products_item, price, qty, shiping_address, delivery_cost, shopingSummary, iduser, id }) => {
+  return pool.query(`UPDATE transaction SET products_item = $1, price = $2, qty = $3, shiping_address = $4, delivery_cost = $5,shoping_sumary =$6, iduser = $7 WHERE id_transaction = $8`, [
+    products_item,
+    price,
+    qty,
+    shiping_address,
+    delivery_cost,
+    shopingSummary,
+    iduser,
+    id,
+  ]);
+};
 
 const deleteTransaction = (id_transaction) => {
   return pool.query("DELETE FROM transaction WHERE id_transaction = $1", [id_transaction]);
@@ -48,7 +50,7 @@ const countTransaction = () => {
 module.exports = {
   select,
   insert,
-  // update,
+  update,
   deleteTransaction,
   countTransaction,
 };

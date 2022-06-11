@@ -39,6 +39,7 @@ exports.insertCategory = async (req, res, next) => {
     commonHelper.response(res, data, 201, "data berhasil di tambahkan");
   } catch (err) {
     console.log(err);
+
     next(new createError.InternalServerError());
   }
 };

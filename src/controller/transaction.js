@@ -1,7 +1,7 @@
 const pool = require("../config/db");
 const createError = require("http-errors");
 const transactionModel = require("../models/transaction");
-// const commonHelper = require("../helper/common");
+const commonHelper = require("../helper/common");
 
 exports.getTransaction = async (req, res, next) => {
   try {
@@ -17,7 +17,6 @@ exports.getTransaction = async (req, res, next) => {
     const totalData = parseInt(count.total);
     const totalPage = Math.ceil(totalData / limit);
 
-    // commonHelper.response(res, result, 200, "data berhasil di dapat");
     res.status(200).json({
       pagination: {
         currentPage: page,
@@ -35,7 +34,8 @@ exports.getTransaction = async (req, res, next) => {
 
 exports.insertTransaction = (req, res, next) => {
   const { products_item, price, qty, shiping_address, delivery_cost, iduser } = req.body;
-  const data = { products_item, price, qty, shiping_address, delivery_cost, iduser };
+  const shopingSummary = price * qty + delivery_cost;
+  const data = { products_item, price, qty, shiping_address, delivery_cost, shopingSummary, iduser };
   transactionModel
     .insert(data)
     .then(() => {
@@ -50,25 +50,19 @@ exports.insertTransaction = (req, res, next) => {
     });
 };
 
-exports.updateTransaction = (req, res, next) => {
-  const id = req.params.id;
-  const { products_item, price, qty, shiping_address, delivery_cost, iduser } = req.body;
-
-  pool.query(
-    "UPDATE transactions SET products_item = $1,price = $2, qty = $3, shiping_address = $4, delivery_cost = $5, iduser = $6 WHERE id_transaction = $7",
-    [products_item, price, qty, shiping_address, delivery_cost, iduser, id],
-    (err) => {
-      if (!err) {
-        res.json({
-          message: "data berhasil di ubah",
-        });
-      } else {
-        res.status(500).json({
-          message: "internal server error",
-        });
-      }
-    }
-  );
+exports.updateTransaction = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { products_item, price, qty, shiping_address, delivery_cost, iduser } = req.body;
+    const shopingSummary = price * qty + delivery_cost;
+    const data = { id, products_item, price, qty, shiping_address, delivery_cost, shopingSummary, iduser };
+    console.log(data);
+    await transactionModel.update(data);
+    commonHelper.response(res, data, 201, "data berhasil di update");
+  } catch (err) {
+    console.log(err);
+    next(new createError.InternalServerError());
+  }
 };
 
 exports.deleteTransaction = async (req, res, next) => {
