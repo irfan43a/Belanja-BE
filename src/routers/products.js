@@ -7,9 +7,9 @@ const { hitCacheProductDetail, clearCacheProductDetail } = require("../middlewar
 
 router
   .get("/", productsController.getProducts)
-  .get("/:id", hitCacheProductDetail, productsController.detailProduct)
+  .get("/:id", productsController.detailProduct)
   .post("/", upload.single("photo"), productsController.insertProducts)
-  .put("/:id", upload.single("photo"), clearCacheProductDetail, productsController.updateProducts)
-  .delete("/:id", clearCacheProductDetail, productsController.deleteProducts);
+  .put("/:id", upload.single("photo"), productsController.updateProducts)
+  .delete("/:id", productsController.deleteProducts);
 
 module.exports = router;
