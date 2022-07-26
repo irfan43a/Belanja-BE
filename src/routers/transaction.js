@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const transactionController = require("../controller/transaction");
 const { protect, isAdmin } = require("../middlewares/auth");
-const { hitCacheProductDetail, clearCacheProductDetail } = require("../middlewares/redis");
+// const { hitCacheProductDetail, clearCacheProductDetail } = require("../middlewares/redis");
 
 router
   .get("/", protect, transactionController.getTransaction)

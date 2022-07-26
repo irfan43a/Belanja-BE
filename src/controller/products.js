@@ -1,7 +1,7 @@
 const createError = require("http-errors");
 const productsModel = require("../models/products");
 const commonHelper = require("../helper/common");
-const client = require("../config/redis");
+// const client = require("../config/redis_");
 
 exports.getProducts = async (req, res, next) => {
   try {
@@ -85,7 +85,7 @@ exports.detailProduct = async (req, res) => {
     const {
       rows: [product],
     } = await productsModel.getProductById(id);
-    client.setEx(`products/${id}`, 60 * 60, JSON.stringify(product));
+    // client.setEx(`products/${id}`, 60 * 60, JSON.stringify(product));
 
     commonHelper.response(res, product, 200, "get data dari database");
   } catch (error) {
