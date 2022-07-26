@@ -6,7 +6,7 @@ const client = require("../config/redis");
 exports.getProducts = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 12;
+    const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
     const sortBy = req.query.sortBy || "id";
     const sort = req.query.sort || "asc";

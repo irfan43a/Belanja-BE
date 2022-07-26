@@ -1,5 +1,4 @@
 const multer = require("multer");
-const createError = require("http-errors");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

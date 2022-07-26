@@ -49,6 +49,7 @@ const login = async (req, res, next) => {
     console.log(user);
     delete user.password;
     const payload = {
+      id: user.id,
       email: user.email,
       role: user.role,
     };
@@ -80,7 +81,7 @@ const refreshToken = (req, res, next) => {
   const decoded = jwt.verify(refreshToken, process.env.SECRET_KEY_JWT);
   const payload = {
     email: decoded.email,
-    role: decoded.password,
+    role: decoded.role,
   };
   const result = {
     token: authHelper.generateToken(payload),
