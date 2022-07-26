@@ -1,6 +1,12 @@
 const createError = require("http-errors");
 const productsModel = require("../models/products");
 const commonHelper = require("../helper/common");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 // const client = require("../config/redis_");
 
 exports.getProducts = async (req, res, next) => {
@@ -43,7 +49,20 @@ exports.getProducts = async (req, res, next) => {
 exports.insertProducts = async (req, res, next) => {
   try {
     const { id_category, name, description, stock, price } = req.body;
-    const data = { id_category, name, description, stock, price, photo: `http://${req.get("host")}/img/${req.file.filename}` };
+    const img = req.file?.path;
+    let result;
+    if (img) {
+      result = await cloudinary.uploader.upload(req.file.path, { folder: "Belanja/products" });
+    }
+    const data = {
+      id_category,
+      name,
+      description,
+      stock,
+      price,
+      photo: result?.url || null,
+      // `http://${req.get("host")}/img/${req.file.filename}`
+    };
     await productsModel.insert(data);
     commonHelper.response(res, data, 201, "data berhasil di tambahkan");
   } catch (err) {
@@ -56,7 +75,21 @@ exports.updateProducts = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     const { name, description, stock, price, id_category } = req.body;
-    const data = { id, name, description, stock, price, id_category, photo: `http://${req.get("host")}/img/${req.file.filename}` };
+    const img = req.file?.path;
+    let result;
+    if (img) {
+      result = await cloudinary.uploader.upload(req.file.path, { folder: "Belanja/products" });
+    }
+    const data = {
+      id,
+      name: name || null,
+      description: description || null,
+      stock: stock || null,
+      price: price || null,
+      id_category: id_category || null,
+      photo: result?.url || null,
+      // `http://${req.get("host")}/img/${req.file.filename}`
+    };
     console.log(data);
     await productsModel.update(data);
     commonHelper.response(res, data, 201, "data berhasil di update");
