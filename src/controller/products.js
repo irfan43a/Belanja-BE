@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const productsModel = require("../models/products");
-const { response } = require("../helper/common");
+const commonHelper = require("../helper/common");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
