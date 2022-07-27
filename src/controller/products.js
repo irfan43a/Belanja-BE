@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const productsModel = require("../models/products");
-const commonHelper = require("../helper/common");
+const { response } = require("../helper/common");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -119,8 +119,15 @@ exports.detailProduct = async (req, res) => {
       rows: [product],
     } = await productsModel.getProductById(id);
     // client.setEx(`products/${id}`, 60 * 60, JSON.stringify(product));
+    // commonHelper.
+    // response(res, product, 200, "get data dari database");
+    res.status(200).json({
+      message: `wellcome `,
+      product,
+    });
 
-    commonHelper.response(res, product, 200, "get data dari database");
+    console.log(id);
+    console.log(res.data);
   } catch (error) {
     console.log(error);
     next(new createError.InternalServerError());
