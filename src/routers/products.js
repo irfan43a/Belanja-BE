@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productsController = require("../controller/products");
-const { protect, isAdmin } = require("../middlewares/auth");
+// const { protect, isAdmin } = require("../middlewares/auth");
 const upload = require("../middlewares/upload");
 // const { hitCacheProductDetail, clearCacheProductDetail } = require("../middlewares/redis");
 
@@ -10,6 +10,6 @@ router
   .get("/:id", productsController.detailProduct)
   .post("/", upload.single("photo"), productsController.insertProducts)
   .put("/:id", upload.single("photo"), productsController.updateProducts)
-  .delete("/:id", protect, productsController.deleteProducts);
+  .delete("/:id", productsController.deleteProducts);
 
 module.exports = router;
