@@ -66,5 +66,10 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Related Project
+
+- [Belanja App](https://github.com/irfan43a/BelanjaReact)
+- [Belanja Demo](https://belanja-react.netlify.app/)
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
