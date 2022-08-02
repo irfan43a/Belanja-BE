@@ -1,5 +1,7 @@
 # Belanja-BE
-
+<div align="center">
+  <img src="https://res.cloudinary.com/hirejob/image/upload/v1659403233/Belanja/pageimage/belanja_logo_nrxers.jpg" />
+</div>
 This API is for Belanja E-Commerce where Costommer and Seller can Transaction.
 
 ## Built With
@@ -13,27 +15,29 @@ This API is for Belanja E-Commerce where Costommer and Seller can Transaction.
 
 ## Installation
 
-Clone this repository and then use the package manager npm to install dependencies.
+- Clone This Repository
 
+`https://github.com/irfan43a/Belanja-BE`
 
-```bash
-npm install
-```
+- Install Module
+
+`npm install`
 
 ## Setup .env example
 
 Create .env file in your root project folder.
 
 ```env
-
-PORT=4000
-DB_HOST=localhost
-DB_USER =root
-DB_PASSWORD=your_password
-DB_NAME=belanja
-AUTH_SECRET=YOUR_SECRET
-AUTH_EXPIRES=1h
-UPLOADED_IMG_PATH=
+PORT = 4000
+DB_USERNAME = 
+DB_HOST = 
+DB_DATABASE = 
+DB_PASSWORD = 
+DB_PORT = 
+SECRET_KEY_JWT = 
+CLOUDINARY_API_KEY = 
+CLOUDINARY_API_SECRET = 
+CLOUDINARY_NAME = 
 
 ```
 
