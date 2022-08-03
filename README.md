@@ -59,7 +59,7 @@ npm start
 
 You can view my Postman collection [here](https://documenter.getpostman.com/view/20254929/UyxjGmUE) </br>
 or </br>
-[![run in Postman](https://documenter.getpostman.com/view/20254929/UyxjGmUE)]()
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
