@@ -68,8 +68,20 @@ Please make sure to update tests as appropriate.
 
 ## Related Project
 
-- [Belanja App](https://github.com/irfan43a/BelanjaReact)
+- [Belanja Front App](https://github.com/irfan43a/BelanjaReact)
+- [Belanja API](https://github.com/irfan43a/Belanja-BE)
 - [Belanja Demo](https://belanja-react.netlify.app/)
+- [Belanja Web Service](https://belanja-app.herokuapp.com)
+
+## Contact
+
+My Email : irfan43abdin@gmail.com
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+
+Distributed under the [MIT](/LICENSE) License.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
