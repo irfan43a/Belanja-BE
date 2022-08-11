@@ -66,6 +66,8 @@ const login = async (req, res, next) => {
 
 const profile = async (req, res, next) => {
   const email = req.decoded.email;
+  const id = req.decoded.id;
+  console.log("id di profile", id, email);
   const {
     rows: [user],
   } = await findByEmail(email);

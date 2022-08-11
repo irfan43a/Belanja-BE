@@ -112,7 +112,7 @@ exports.deleteProducts = async (req, res, next) => {
   }
 };
 
-exports.detailProduct = async (req, res) => {
+exports.detailProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     const {
@@ -132,4 +132,22 @@ exports.detailProduct = async (req, res) => {
     console.log(error);
     next(new createError.InternalServerError());
   }
+};
+exports.insertCheckout = async (req, res, next) => {
+  try {
+    const { idUser, products, total } = req.body;
+
+    products.map((item) => {
+      productsModel.checkoutModel({ idproduct: item.id, count: item.count, total: total, idUser: idUser });
+    });
+
+    commonHelper.response(res, null, 201, "data berhasil di tambahkan");
+  } catch (err) {
+    console.log(err);
+    next(new createError.InternalServerError());
+  }
+};
+
+exports.getCheckout = async (req, res, next) => {
+  console.log("get chechout");
 };

@@ -37,6 +37,20 @@ const deleteProducts = (id) => {
 const getProductById = (id) => {
   return pool.query("SELECT products.*, category.name AS name_category from products inner join category ON products.id_category = category.id WHERE products.id = $1", [id]);
 };
+const getCheckout = (idUser) => {
+  return pool.query("SELECT products.name, products.photo,products.price, checkout.count,checkout.total FROM checkout INNER JOIN products ON checkout.idproduct = products.id where checkout.iduser= $1", [idUser]);
+};
+const checkoutModel = ({ idUser, idproduct, count, total }) => {
+  return new Promise((resolve, reject) => {
+    pool.query("INSERT INTO checkout(  iduser, idproduct, count, total)VALUES($1,$2,$3,$4)", [idUser, idproduct, count, total], (err, result) => {
+      if (!err) {
+        resolve(result);
+      } else {
+        reject(new Error(err));
+      }
+    });
+  });
+};
 module.exports = {
   select,
   insert,
@@ -44,4 +58,6 @@ module.exports = {
   deleteProducts,
   countProducts,
   getProductById,
+  checkoutModel,
+  getCheckout,
 };
